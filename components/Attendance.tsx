@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { User, CheckCircle, Save, ChevronDown, Search, Calendar, History, FileText, Filter, AlertCircle, XCircle, Clock, Paperclip, Eye, X, Image as ImageIcon, UploadCloud, Check, Database, Edit, AlertTriangle, ArrowLeft, RefreshCw } from 'lucide-react';
+import { User, CheckCircle, Save, ChevronDown, Search, Calendar, History, FileText, Filter, AlertCircle, XCircle, Clock, Paperclip, Eye, X, Image as ImageIcon, UploadCloud, Check, Database, Edit, AlertTriangle, ArrowLeft, RefreshCw, Trash2, Eraser } from 'lucide-react';
 import { mockStudents } from '../data';
 import { StudentProfile } from '../types';
 
@@ -19,7 +19,7 @@ interface AttendanceStudent {
   major: string;
 }
 
-// Interface for the new History feature
+// Interface for the History feature
 interface AttendanceLog {
   id: string;
   date: string;
@@ -34,8 +34,8 @@ interface AttendanceLog {
   batch: string;
 }
 
-// Expanded Mock data for history visualization
-const mockAttendanceHistory: AttendanceLog[] = [
+// Initial Mock Data
+const initialHistoryData: AttendanceLog[] = [
     // Today / Recent
     { 
         id: '1', 
@@ -100,10 +100,16 @@ export const Attendance: React.FC<AttendanceProps> = ({ initialTab, initialViewM
   const [showEditDateModal, setShowEditDateModal] = useState(false);
   const [editDateInput, setEditDateInput] = useState('');
   
-  // History State
+  // History & Deletion State
+  const [historyData, setHistoryData] = useState<AttendanceLog[]>(initialHistoryData);
   const [historySearch, setHistorySearch] = useState('');
-  const [historyViewMode, setHistoryViewMode] = useState<'issues' | 'all'>('issues'); // 'issues' = I, S, A only | 'all' = include H
+  const [historyViewMode, setHistoryViewMode] = useState<'issues' | 'all'>('issues'); 
   const [historyBatchFilter, setHistoryBatchFilter] = useState('All');
+  const [historyDateFilter, setHistoryDateFilter] = useState(''); // New: Filter for Bulk Delete
+
+  // Delete Modals
+  const [deleteConfirmType, setDeleteConfirmType] = useState<'single' | 'bulk' | null>(null);
+  const [itemToDelete, setItemToDelete] = useState<AttendanceLog | null>(null); // For single delete
 
   // Modal State for Viewing Proof
   const [previewProof, setPreviewProof] = useState<{url: string, type: string, title: string} | null>(null);
@@ -224,9 +230,7 @@ export const Attendance: React.FC<AttendanceProps> = ({ initialTab, initialViewM
       setActiveTab('input'); // Force switch to input view
 
       // SIMULATE FETCHING DATA FROM DB FOR SELECTED DATE
-      // In a real app, this would be an API call: fetchAttendance(date)
       const mockFetchedData = students.map(s => {
-          // Randomly assign status to simulate existing data
           const rand = Math.random();
           let status: 'H' | 'I' | 'S' | 'A' = 'H';
           if (rand > 0.85) status = 'I';
@@ -247,6 +251,28 @@ export const Attendance: React.FC<AttendanceProps> = ({ initialTab, initialViewM
       resetStudentData(); // Reset to empty for fresh input
       setSelectedDate(new Date().toISOString().split('T')[0]); // Reset date to today
   };
+
+  // --- DELETE LOGIC ---
+  const initiateSingleDelete = (log: AttendanceLog) => {
+      setItemToDelete(log);
+      setDeleteConfirmType('single');
+  };
+
+  const initiateBulkDelete = () => {
+      if (!historyDateFilter) return;
+      setDeleteConfirmType('bulk');
+  };
+
+  const confirmDelete = () => {
+      if (deleteConfirmType === 'single' && itemToDelete) {
+          setHistoryData(prev => prev.filter(item => item.id !== itemToDelete.id));
+      } else if (deleteConfirmType === 'bulk' && historyDateFilter) {
+          setHistoryData(prev => prev.filter(item => item.date !== historyDateFilter));
+      }
+      setDeleteConfirmType(null);
+      setItemToDelete(null);
+  };
+
   // ----------------------
 
   // Filter Logic for Input View
@@ -259,20 +285,21 @@ export const Attendance: React.FC<AttendanceProps> = ({ initialTab, initialViewM
   });
 
   // Filter Logic for History View
-  const filteredHistory = mockAttendanceHistory.filter(log => {
+  const filteredHistory = historyData.filter(log => {
       const matchesSearch = log.studentName.toLowerCase().includes(historySearch.toLowerCase()) || log.nim.includes(historySearch);
       const matchesBatch = historyBatchFilter === 'All' || log.batch === historyBatchFilter;
-      
+      const matchesDate = !historyDateFilter || log.date === historyDateFilter; // Date filter logic
+
       let matchesView = true;
       if (historyViewMode === 'issues') {
           matchesView = log.status !== 'H';
       }
 
-      return matchesSearch && matchesBatch && matchesView;
+      return matchesSearch && matchesBatch && matchesView && matchesDate;
   });
 
   // Calculate Stats
-  const historyStats = mockAttendanceHistory.reduce((acc, curr) => {
+  const historyStats = historyData.reduce((acc, curr) => {
       acc.total++;
       if (curr.status === 'H') acc.h++;
       if (curr.status === 'I') acc.i++;
@@ -328,6 +355,43 @@ export const Attendance: React.FC<AttendanceProps> = ({ initialTab, initialViewM
   return (
     <div className="w-full space-y-6 pb-20 relative">
        
+       {/* DELETE CONFIRMATION MODAL */}
+       {deleteConfirmType && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
+                <div className="bg-white rounded-xl shadow-2xl max-w-sm w-full p-6 animate-in zoom-in-95 duration-200 border border-slate-100">
+                    <div className="flex items-center gap-3 mb-4 text-red-600">
+                        <div className="p-2 bg-red-100 rounded-full">
+                            <Trash2 className="w-6 h-6" />
+                        </div>
+                        <h3 className="font-bold text-lg text-slate-900">Confirm Deletion</h3>
+                    </div>
+                    
+                    <p className="text-slate-600 mb-6 text-sm leading-relaxed">
+                        {deleteConfirmType === 'single' 
+                            ? <span>Are you sure you want to delete the attendance record for <span className="font-bold text-slate-900">{itemToDelete?.studentName}</span>?</span>
+                            : <span>Are you sure you want to delete <span className="font-bold text-red-600 underline">ALL RECORDS</span> for <span className="font-bold text-slate-900">{historyDateFilter}</span>? This action cannot be undone.</span>
+                        }
+                    </p>
+                    
+                    <div className="flex justify-end gap-3">
+                        <button 
+                            onClick={() => { setDeleteConfirmType(null); setItemToDelete(null); }}
+                            className="px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-100 rounded-lg transition-colors"
+                        >
+                            Cancel
+                        </button>
+                        <button 
+                            onClick={confirmDelete}
+                            className="px-4 py-2 text-sm font-bold text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors shadow-sm shadow-red-200 flex items-center gap-2"
+                        >
+                            <Trash2 className="w-4 h-4" />
+                            Yes, Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+       )}
+
        {/* Date Selection Modal for Editing */}
        {showEditDateModal && (
            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
@@ -802,24 +866,52 @@ export const Attendance: React.FC<AttendanceProps> = ({ initialTab, initialViewM
 
              {/* History Toolbar & View Switcher */}
              <div className="flex flex-col xl:flex-row gap-4 justify-between bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                 {/* View Mode Switcher */}
-                 <div className="flex p-1 bg-slate-100 rounded-lg self-start sm:self-auto w-full sm:w-auto">
+                 
+                 {/* Left: View Mode & Bulk Delete */}
+                 <div className="flex flex-wrap items-center gap-3 w-full xl:w-auto">
+                    <div className="flex p-1 bg-slate-100 rounded-lg">
+                        <button 
+                            onClick={() => setHistoryViewMode('issues')}
+                            className={`px-3 py-1.5 rounded-md text-xs font-bold transition-all ${historyViewMode === 'issues' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                        >
+                            Absence Only
+                        </button>
+                        <button 
+                            onClick={() => setHistoryViewMode('all')}
+                            className={`px-3 py-1.5 rounded-md text-xs font-bold transition-all ${historyViewMode === 'all' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                        >
+                            Full Log
+                        </button>
+                    </div>
+
+                    {/* Bulk Delete Button (Only active if date filtered) */}
                     <button 
-                        onClick={() => setHistoryViewMode('issues')}
-                        className={`flex-1 sm:flex-none px-4 py-1.5 rounded-md text-xs font-bold transition-all ${historyViewMode === 'issues' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                        onClick={initiateBulkDelete}
+                        disabled={!historyDateFilter}
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-bold transition-all ${
+                            historyDateFilter 
+                            ? 'bg-white border-red-200 text-red-600 hover:bg-red-50 cursor-pointer shadow-sm' 
+                            : 'bg-slate-50 border-slate-200 text-slate-400 cursor-not-allowed'
+                        }`}
+                        title={historyDateFilter ? "Delete all logs for selected date" : "Select a date to enable bulk delete"}
                     >
-                        Absence & Issues
-                    </button>
-                    <button 
-                        onClick={() => setHistoryViewMode('all')}
-                        className={`flex-1 sm:flex-none px-4 py-1.5 rounded-md text-xs font-bold transition-all ${historyViewMode === 'all' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
-                    >
-                        Full Log (All)
+                        <Eraser className="w-3.5 h-3.5" />
+                        Clear Daily Log
                     </button>
                  </div>
 
-                 {/* Search & Filter */}
+                 {/* Right: Search & Filters */}
                  <div className="flex flex-col sm:flex-row gap-3 w-full xl:w-auto">
+                     {/* Date Filter for Deletion/Viewing */}
+                     <div className="relative sm:w-36">
+                        <input 
+                            type="date"
+                            value={historyDateFilter}
+                            onChange={(e) => setHistoryDateFilter(e.target.value)}
+                            className="w-full rounded-lg h-9 border border-slate-200 bg-[#f6f6f8] text-slate-900 text-xs px-2 outline-none focus:ring-2 focus:ring-blue-500/50"
+                        />
+                     </div>
+
                      <div className="relative flex-1 sm:w-64">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                         <input 
@@ -858,6 +950,7 @@ export const Attendance: React.FC<AttendanceProps> = ({ initialTab, initialViewM
                                 <th className="px-6 py-4 text-xs font-semibold uppercase text-slate-500 border-b border-slate-200">Student Info</th>
                                 <th className="px-6 py-4 text-xs font-semibold uppercase text-slate-500 border-b border-slate-200">Status</th>
                                 <th className="px-6 py-4 text-xs font-semibold uppercase text-slate-500 border-b border-slate-200">Note & Proof</th>
+                                <th className="px-6 py-4 text-xs font-semibold uppercase text-slate-500 border-b border-slate-200 text-right">Action</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-100">
@@ -907,11 +1000,20 @@ export const Attendance: React.FC<AttendanceProps> = ({ initialTab, initialViewM
                                                 )}
                                             </div>
                                         </td>
+                                        <td className="px-6 py-4 text-right">
+                                            <button 
+                                                onClick={() => initiateSingleDelete(log)}
+                                                className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-md transition-all"
+                                                title="Delete Record"
+                                            >
+                                                <Trash2 className="w-4 h-4" />
+                                            </button>
+                                        </td>
                                     </tr>
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan={4} className="px-6 py-10 text-center text-slate-500 flex flex-col items-center justify-center gap-2">
+                                    <td colSpan={5} className="px-6 py-10 text-center text-slate-500 flex flex-col items-center justify-center gap-2">
                                         <div className="p-3 bg-slate-100 rounded-full">
                                             <History className="w-6 h-6 text-slate-400" />
                                         </div>
