@@ -206,7 +206,9 @@ export const StudentList: React.FC<StudentListProps> = ({ students, onSelectStud
       {/* Filter Bar */}
       <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col sm:flex-row gap-4 relative z-20">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <Search className="w-4 h-4 text-slate-400" />
+          </div>
           <input 
             type="text" 
             placeholder="Search by Name, NIM, or Email..." 
@@ -254,7 +256,7 @@ export const StudentList: React.FC<StudentListProps> = ({ students, onSelectStud
                         : 'border-slate-200 text-slate-600 hover:bg-slate-50'
                     }`}
                 >
-                    {isFilterActive ? <SlidersHorizontal className="w-4 h-4" /> : <Filter className="w-4 h-4" />}
+                    {isFilterActive ? <SlidersHorizontal className="w-4 h-4 shrink-0" /> : <Filter className="w-4 h-4 shrink-0" />}
                     <span className="hidden md:inline">Filter & Sort</span>
                     {isFilterActive && (
                         <span className="flex h-2 w-2 rounded-full bg-primary ml-1"></span>

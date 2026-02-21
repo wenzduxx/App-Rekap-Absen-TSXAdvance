@@ -33,7 +33,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activePage = 'Students', onNav
                 : 'text-slate-800 hover:bg-slate-100'
             }`}
           >
-            <item.icon className={`w-5 h-5 ${activePage === item.label ? 'text-blue-600' : 'text-slate-900'}`} strokeWidth={2.5} />
+            <item.icon className={`w-5 h-5 shrink-0 ${activePage === item.label ? 'text-blue-600' : 'text-slate-900'}`} strokeWidth={2.5} />
             {item.label}
           </button>
         ))}
@@ -45,7 +45,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activePage = 'Students', onNav
           onClick={onLogout}
           className="w-full flex items-center gap-4 px-4 py-2 text-sm font-bold text-slate-800 hover:text-red-600 transition-colors rounded-xl hover:bg-red-50"
         >
-          <LogOut className="w-5 h-5" strokeWidth={2.5} />
+          <LogOut className="w-5 h-5 shrink-0" strokeWidth={2.5} />
           Logout
         </button>
       </div>

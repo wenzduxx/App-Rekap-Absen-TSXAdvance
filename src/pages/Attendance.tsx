@@ -617,14 +617,16 @@ export const Attendance: React.FC<AttendanceProps> = ({ initialTab, initialViewM
                     <div className="w-full md:w-56">
                         <label className="block text-xs font-medium text-slate-500 mb-1.5">Search Student</label>
                         <div className="relative">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                        <input 
-                            type="text"
-                            placeholder="Name or NIM..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full rounded-lg h-10 border border-slate-200 bg-[#f6f6f8] text-slate-900 text-sm pl-9 pr-3 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 outline-none transition-all"
-                        />
+                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <Search className="w-4 h-4 text-slate-400" />
+                            </div>
+                            <input 
+                                type="text"
+                                placeholder="Name or NIM..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                className="w-full rounded-lg h-10 border border-slate-200 bg-[#f6f6f8] text-slate-900 text-sm pl-9 pr-3 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 outline-none transition-all"
+                            />
                         </div>
                     </div>
                     
@@ -632,7 +634,9 @@ export const Attendance: React.FC<AttendanceProps> = ({ initialTab, initialViewM
                     <div className="w-full md:w-40">
                         <label className="block text-xs font-medium text-slate-500 mb-1.5">Date</label>
                         <div className="relative">
-                            <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 pointer-events-none" />
+                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <Calendar className="w-4 h-4 text-slate-500" />
+                            </div>
                             <input 
                                 type="date" 
                                 value={selectedDate}
@@ -661,7 +665,9 @@ export const Attendance: React.FC<AttendanceProps> = ({ initialTab, initialViewM
                                 <option>Management</option>
                                 <option>Psychology</option>
                             </select>
-                            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                            <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                <ChevronDown className="w-4 h-4 text-slate-400" />
+                            </div>
                         </div>
                     </div>
 
@@ -681,7 +687,9 @@ export const Attendance: React.FC<AttendanceProps> = ({ initialTab, initialViewM
                                 <option>2023</option>
                                 <option>2024</option>
                             </select>
-                            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                            <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                <ChevronDown className="w-4 h-4 text-slate-400" />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -913,7 +921,9 @@ export const Attendance: React.FC<AttendanceProps> = ({ initialTab, initialViewM
                      </div>
 
                      <div className="relative flex-1 sm:w-64">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <Search className="w-4 h-4 text-slate-400" />
+                        </div>
                         <input 
                             type="text"
                             placeholder="Search student or NIM..."
@@ -935,7 +945,9 @@ export const Attendance: React.FC<AttendanceProps> = ({ initialTab, initialViewM
                              <option value="2023">2023</option>
                              <option value="2024">2024</option>
                          </select>
-                         <Filter className="absolute right-2 top-2.5 text-slate-400 pointer-events-none w-4 h-4" />
+                         <div className="absolute inset-y-0 right-0 pr-2 flex items-center pointer-events-none">
+                            <Filter className="text-slate-400 w-4 h-4" />
+                         </div>
                      </div>
                  </div>
              </div>

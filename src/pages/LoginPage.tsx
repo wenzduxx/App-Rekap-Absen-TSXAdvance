@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CheckCircle, AlertCircle, Loader2, XCircle } from 'lucide-react';
+import { CheckCircle, AlertCircle, Loader2, XCircle, User, Lock, Eye, EyeOff, Globe, Building2, ShieldCheck, ExternalLink, School } from 'lucide-react';
 
 interface LoginPageProps {
   onLoginSuccess: () => void;
@@ -83,14 +83,14 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
         <header className="relative z-10 flex w-full items-center justify-between border-b border-[#e7ebf3] dark:border-[#2a3447] px-6 py-4 lg:px-10 bg-white/60 dark:bg-[#101622]/60 backdrop-blur-md">
             <div className="flex items-center gap-4">
                 <div className="flex items-center justify-center rounded-lg bg-[#135bec]/10 p-2 text-[#135bec]">
-                    <span className="material-symbols-outlined text-2xl">school</span>
+                    <School className="w-6 h-6" />
                 </div>
                 <h2 className="text-lg font-bold leading-tight tracking-tight">Sistem Absensi Mahasiswa</h2>
             </div>
             <div className="flex items-center gap-6">
                 <a className="text-sm font-medium hover:text-[#135bec] transition-colors hidden sm:block" href="#">Bantuan</a>
                 <button className="flex items-center gap-2 rounded-lg border border-[#e7ebf3] dark:border-[#2a3447] bg-white dark:bg-[#1a2333] px-3 py-2 text-sm font-medium hover:bg-gray-50 dark:hover:bg-[#253045] transition-colors">
-                    <span className="material-symbols-outlined text-[20px]">language</span>
+                    <Globe className="w-5 h-5" />
                     <span>ID</span>
                 </button>
             </div>
@@ -134,7 +134,9 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
                         <div>
                             <label className="block text-sm font-bold text-[#0d121b] dark:text-white mb-2" htmlFor="username">Username</label>
                             <div className="relative group">
-                                <span className={`absolute left-3 top-1/2 -translate-y-1/2 transition-colors material-symbols-outlined text-[20px] ${error && error.includes('Username') ? 'text-red-500' : 'text-[#4c669a] group-focus-within:text-[#135bec]'}`}>person</span>
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#4c669a] group-focus-within:text-[#135bec] transition-colors">
+                                    <User className="w-5 h-5" />
+                                </div>
                                 <input 
                                     className={`w-full rounded-lg border bg-white dark:bg-[#1a2333]/50 pl-10 pr-4 py-3 text-sm placeholder:text-gray-400 outline-none transition-all shadow-sm ${error && error.includes('Username') ? 'border-red-300 focus:border-red-500 focus:ring-1 focus:ring-red-500' : 'border-[#e7ebf3] dark:border-[#2a3447] focus:border-[#135bec] focus:ring-1 focus:ring-[#135bec]'}`}
                                     id="username" 
@@ -149,7 +151,9 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
                         <div>
                             <label className="block text-sm font-bold text-[#0d121b] dark:text-white mb-2" htmlFor="password">Password</label>
                             <div className="relative group">
-                                <span className={`absolute left-3 top-1/2 -translate-y-1/2 transition-colors material-symbols-outlined text-[20px] ${error && error.includes('Password') ? 'text-red-500' : 'text-[#4c669a] group-focus-within:text-[#135bec]'}`}>lock</span>
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#4c669a] group-focus-within:text-[#135bec] transition-colors">
+                                    <Lock className="w-5 h-5" />
+                                </div>
                                 <input 
                                     className={`w-full rounded-lg border bg-white dark:bg-[#1a2333]/50 pl-10 pr-10 py-3 text-sm placeholder:text-gray-400 outline-none transition-all shadow-sm ${error && error.includes('Password') ? 'border-red-300 focus:border-red-500 focus:ring-1 focus:ring-red-500' : 'border-[#e7ebf3] dark:border-[#2a3447] focus:border-[#135bec] focus:ring-1 focus:ring-[#135bec]'}`}
                                     id="password" 
@@ -162,10 +166,10 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
                                 <button 
                                     type="button"
                                     onClick={() => setShowPassword(!showPassword)}
-                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#4c669a] hover:text-[#0d121b] dark:hover:text-white transition-colors"
+                                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-[#4c669a] hover:text-[#0d121b] dark:hover:text-white transition-colors cursor-pointer"
                                     disabled={isLoading || isSuccess}
                                 >
-                                    <span className="material-symbols-outlined text-[20px]">{showPassword ? 'visibility_off' : 'visibility'}</span>
+                                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                                 </button>
                             </div>
                         </div>
@@ -202,12 +206,12 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
                     </div>
                     
                     <button className="flex w-full items-center justify-center gap-3 rounded-lg border border-[#e7ebf3] dark:border-[#2a3447] bg-white dark:bg-[#1a2333] py-3 text-sm font-bold text-[#0d121b] dark:text-white transition-all hover:bg-gray-50 dark:hover:bg-[#253045] hover:border-blue-200 dark:hover:border-blue-800">
-                        <span className="material-symbols-outlined text-[22px] text-blue-600">corporate_fare</span>
+                        <Building2 className="w-5 h-5 text-blue-600" />
                         <span>Single Sign-On (SSO)</span>
                     </button>
                     
                     <div className="mt-6 flex items-center justify-center lg:justify-start gap-2 text-xs font-medium text-[#4c669a] dark:text-slate-500">
-                        <span className="material-symbols-outlined text-[16px] text-green-500">verified_user</span>
+                        <ShieldCheck className="w-4 h-4 text-green-500" />
                         <span>Secure SSL Encryption</span>
                         <span className="mx-1">•</span>
                         <span>Official University Portal</span>
@@ -223,7 +227,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
                             <div className="transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
                                 <div className="flex items-center gap-2 mb-3">
                                     <div className="bg-white/20 backdrop-blur-md rounded-md p-1">
-                                        <span className="material-symbols-outlined text-white text-[20px]">admin_panel_settings</span>
+                                        <ShieldCheck className="w-5 h-5 text-white" />
                                     </div>
                                     <span className="text-xs font-bold uppercase tracking-wider text-white/90 bg-[#135bec]/80 px-2 py-1 rounded backdrop-blur-sm">Akses Terbatas</span>
                                 </div>
@@ -252,7 +256,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
                     <a className="text-sm font-medium text-[#4c669a] hover:text-[#135bec] dark:text-slate-400 dark:hover:text-[#135bec] transition-colors" href="#">Syarat Penggunaan</a>
                     <a className="text-sm font-medium text-[#4c669a] hover:text-[#135bec] dark:text-slate-400 dark:hover:text-[#135bec] transition-colors flex items-center gap-1" href="#">
                         Hubungi IT Support
-                        <span className="material-symbols-outlined text-[16px]">open_in_new</span>
+                        <ExternalLink className="w-4 h-4" />
                     </a>
                 </div>
             </div>

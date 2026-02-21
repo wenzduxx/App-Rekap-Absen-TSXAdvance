@@ -1,5 +1,5 @@
 
-import { StudentProfile, RecordType } from './types';
+import { StudentProfile, RecordType } from '../types';
 
 export const mockStudents: StudentProfile[] = [
   { 

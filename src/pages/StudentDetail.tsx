@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { StatsCards } from './StatsCards';
-import { RecordTable } from './RecordTable';
+import { StatsCards } from '../components/StatsCards';
+import { RecordTable } from '../components/RecordTable';
 import { StudentProfile, AcademicStat, SemesterResult } from '../types';
-import { TuitionHistoryModal } from './TuitionHistoryModal';
+import { TuitionHistoryModal } from '../components/TuitionHistoryModal';
 import { ChevronRight, Edit2, Calendar, Book, ShieldCheck, ArrowLeft, Camera, CreditCard, CheckCircle2, XCircle, FileText, History, Clock, Star, HelpingHand, Landmark, Award, ChevronDown } from 'lucide-react';
 
 interface StudentDetailProps {

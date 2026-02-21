@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ArrowRight, CheckCircle2, Shield, Globe, Zap, BarChart3, Users, PlayCircle, BookOpen, MapPin, Mail, Phone, Code2, Cpu, Network, Pi, Binary, Atom, Dna, Calculator, Microscope, Database, FileDigit, Target } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Shield, Globe, Zap, BarChart3, Users, PlayCircle, BookOpen, MapPin, Mail, Phone, Code2, Cpu, Network, Pi, Binary, Atom, Dna, Calculator, Microscope, Database, FileDigit, Target, GraduationCap } from 'lucide-react';
 
 interface LandingPageProps {
   onLoginAdmin: () => void;
@@ -193,8 +193,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginAdmin, onEnterD
                 className="flex items-center gap-3 cursor-pointer group" 
                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             >
-                <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-500 text-white shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform duration-300">
-                    <span className="material-symbols-outlined text-2xl">school</span>
+                <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-slate-900/50 backdrop-blur-md border border-white/10 text-white shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform duration-300 overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <GraduationCap className="w-6 h-6 relative z-10" />
                 </div>
                 <div>
                     <h2 className="text-xl font-bold leading-tight tracking-tight text-white">UniPortal<span className="text-cyan-400">.</span></h2>
@@ -223,7 +224,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginAdmin, onEnterD
             <div className="flex items-center gap-4">
                 <button 
                     onClick={onLoginAdmin}
-                    className="relative px-6 py-2.5 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-sm font-bold hover:shadow-[0_0_20px_rgba(37,99,235,0.5)] transition-all overflow-hidden group"
+                    className="relative px-6 py-2.5 rounded-full bg-blue-600 text-white text-sm font-bold hover:bg-blue-700 hover:shadow-[0_0_20px_rgba(37,99,235,0.5)] transition-all overflow-hidden group border border-blue-500"
                 >
                     <span className="relative z-10 flex items-center gap-2">
                         Login Admin <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -267,13 +268,18 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginAdmin, onEnterD
                 The Future of Education
             </div>
 
-            {/* Main Heading Restored with Typewriter Effect */}
+            {/* Main Heading Restored with Glitch Effect */}
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter text-white mb-6 leading-tight animate-fade-up [animation-delay:200ms] drop-shadow-2xl">
-                Campus <span className="inline-flex items-center">
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-400 to-emerald-400 animate-shimmer bg-[length:200%_auto] min-w-[1ch] pb-2">
-                        {displayText}
+                Campus <span className="inline-flex items-center relative group">
+                    <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-[length:300%_auto] animate-gradient-xy pb-2 drop-shadow-[0_0_10px_rgba(168,85,247,0.5)]">
+                        Intelligence
                     </span>
-                    <span className="w-[4px] h-[0.8em] bg-cyan-400 ml-1 cursor-blink shadow-[0_0_10px_#22d3ee]"></span>
+                    <span className="absolute top-0 left-0 -z-10 w-full h-full text-cyan-400 opacity-70 animate-glitch-1">
+                        Intelligence
+                    </span>
+                    <span className="absolute top-0 left-0 -z-10 w-full h-full text-pink-500 opacity-70 animate-glitch-2">
+                        Intelligence
+                    </span>
                 </span>
                 <br /> System
             </h1>
@@ -287,16 +293,18 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginAdmin, onEnterD
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-24 animate-fade-up [animation-delay:600ms]">
                 <button 
                     onClick={onEnterDashboard}
-                    className="group relative px-8 py-4 rounded-full text-white font-bold text-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_-10px_rgba(34,211,238,0.6)] ring-1 ring-white/20 hover:ring-white/50"
+                    className="group relative px-9 py-4 rounded-full text-white font-bold text-lg overflow-hidden transition-all duration-300 hover:scale-105 shadow-[0_0_30px_-5px_rgba(59,130,246,0.6)] hover:shadow-[0_0_50px_-10px_rgba(168,85,247,0.8)] ring-1 ring-white/20"
                 >
-                    {/* Gradient Background with Animation */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-cyan-500 to-emerald-500 bg-[length:200%_auto] animate-shimmer opacity-90 group-hover:opacity-100 transition-opacity"></div>
+                    {/* Moving Gradient Background */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-500 bg-[length:300%_300%] animate-gradient-xy opacity-100"></div>
                     
-                    {/* Shine Sweep Effect */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out"></div>
+                    {/* Gloss/Highlight Effects */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent opacity-50"></div>
+                    <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/60 to-transparent"></div>
+                    <div className="absolute inset-x-0 bottom-0 h-[1px] bg-gradient-to-r from-transparent via-purple-300/50 to-transparent"></div>
                     
                     {/* Content */}
-                    <span className="relative flex items-center gap-2 z-10">
+                    <span className="relative z-10 flex items-center gap-2 drop-shadow-md tracking-wide">
                         Masuk Dashboard <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                     </span>
                 </button>
@@ -589,8 +597,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginAdmin, onEnterD
             <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
                 <div className="col-span-1 md:col-span-1">
                     <div className="flex items-center gap-2 mb-6">
-                        <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white">
-                            <span className="material-symbols-outlined">school</span>
+                        <div className="w-8 h-8 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-white shadow-sm">
+                            <GraduationCap className="w-5 h-5" />
                         </div>
                         <h3 className="text-xl font-bold text-white">UniPortal.</h3>
                     </div>

@@ -214,10 +214,10 @@ export const Statistics: React.FC = () => {
            </div>
            
            <div className="p-6 flex-1 flex flex-col items-center justify-center relative">
-              <div className="relative w-56 h-56 rounded-full shadow-inner animate-in fade-in zoom-in duration-500" style={{
+              <div className="relative w-56 h-56 rounded-full shadow-inner animate-in fade-in zoom-in duration-500 flex items-center justify-center" style={{
                   background: 'conic-gradient(#10b981 0% 75%, #f59e0b 75% 85%, #3b82f6 85% 92%, #ef4444 92% 100%)'
               }}>
-                 <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-36 h-36 bg-white rounded-full flex flex-col items-center justify-center shadow-sm z-10">
+                 <div className="w-36 h-36 bg-white rounded-full flex flex-col items-center justify-center shadow-sm z-10">
                     <span className="text-3xl font-black text-slate-900 tracking-tight">2.4k</span>
                     <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Records</span>
                  </div>
@@ -266,7 +266,7 @@ export const Statistics: React.FC = () => {
                 </div>
                 <div className="flex items-center gap-2">
                     <span className="flex items-center gap-1 text-[10px] font-bold bg-emerald-50 text-emerald-700 px-2 py-1 rounded border border-emerald-100">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Target > 85%
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Target &gt; 85%
                     </span>
                 </div>
             </div>
