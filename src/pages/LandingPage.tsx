@@ -138,71 +138,26 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginAdmin, onEnterD
   return (
     <div className="min-h-screen bg-slate-950 font-display text-white selection:bg-blue-500/30 overflow-x-hidden">
       
-      {/* Styles for Custom Animations */}
-      <style>{`
-        @keyframes float-slow {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(5deg); }
-        }
-        @keyframes shooting-star {
-            0% { transform: translateX(0) translateY(0) rotate(-45deg); opacity: 1; }
-            100% { transform: translateX(-500px) translateY(500px) rotate(-45deg); opacity: 0; }
-        }
-        @keyframes filling-bar {
-            0% { width: 0%; }
-            100% { width: 100%; }
-        }
-        .animate-float-slow {
-            animation: float-slow 6s ease-in-out infinite;
-        }
-        .animate-filling {
-            animation: filling-bar 5000ms linear forwards;
-        }
-        .shooting-star {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: white;
-            border-radius: 50%;
-            box-shadow: 0 0 0 4px rgba(255,255,255,0.1), 0 0 0 8px rgba(255,255,255,0.1), 0 0 20px white;
-            animation: shooting-star 3s linear infinite;
-        }
-        .shooting-star::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 300px;
-            height: 1px;
-            background: linear-gradient(90deg, white, transparent);
-        }
-        .cursor-blink {
-            animation: blink 1s step-end infinite;
-        }
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-      `}</style>
-
       {/* --- NAVBAR --- */}
       <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 border-b ${scrolled ? 'py-3 bg-slate-950/80 backdrop-blur-xl border-slate-800 shadow-lg shadow-blue-900/5' : 'py-6 bg-transparent border-transparent'}`}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8 flex items-center justify-between">
-            {/* Logo */}
-            <div 
-                className="flex items-center gap-3 cursor-pointer group" 
-                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            >
-                <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-slate-900/50 backdrop-blur-md border border-white/10 text-white shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform duration-300 overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    <GraduationCap className="w-6 h-6 relative z-10" />
-                </div>
-                <div>
-                    <h2 className="text-xl font-bold leading-tight tracking-tight text-white">UniPortal<span className="text-cyan-400">.</span></h2>
+            {/* Logo Section (Left) */}
+            <div className="flex-1 flex justify-start">
+                <div 
+                    className="flex items-center gap-3 cursor-pointer group" 
+                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                >
+                    <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-slate-900/50 backdrop-blur-md border border-white/10 text-white shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform duration-300 overflow-hidden">
+                        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <GraduationCap className="w-6 h-6 relative z-10" />
+                    </div>
+                    <div>
+                        <h2 className="text-xl font-bold leading-tight tracking-tight text-white">UniPortal<span className="text-cyan-400">.</span></h2>
+                    </div>
                 </div>
             </div>
 
-            {/* Nav Menu */}
+            {/* Nav Menu (Center) */}
             <nav className="hidden md:flex items-center gap-1 bg-slate-900/50 p-1 rounded-full border border-slate-800/50 backdrop-blur-sm">
                 {[
                     { label: 'Fitur', id: 'fitur' },
@@ -220,8 +175,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginAdmin, onEnterD
                 ))}
             </nav>
 
-            {/* Login Button */}
-            <div className="flex items-center gap-4">
+            {/* Action Section (Right) */}
+            <div className="flex-1 flex items-center justify-end gap-4">
                 <button 
                     onClick={onLoginAdmin}
                     className="relative px-6 py-2.5 rounded-full bg-blue-600 text-white text-sm font-bold hover:bg-blue-700 hover:shadow-[0_0_20px_rgba(37,99,235,0.5)] transition-all overflow-hidden group border border-blue-500"
@@ -514,19 +469,25 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginAdmin, onEnterD
                         {/* Progress Bars Slider */}
                         <div className="relative z-10 flex gap-4 mt-8">
                             {/* Bar 1: Innovation (Orange) */}
-                            <div className="h-1.5 flex-1 bg-slate-800 rounded-full overflow-hidden">
+                            <div className="h-1.5 flex-1 bg-slate-900 rounded-full overflow-hidden relative border border-white/5">
                                 <div 
-                                    key={`bar-0-${innovationSlide}`} // Force re-render on slide change
-                                    className={`h-full bg-gradient-to-r from-orange-500 to-orange-400 rounded-full shadow-[0_0_10px_rgba(249,115,22,0.5)] ${innovationSlide === 0 ? 'animate-filling w-full' : 'w-0'}`}
+                                    key={`bar-0-${innovationSlide}`}
+                                    className={`h-full bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 rounded-full ${innovationSlide === 0 ? 'animate-filling' : 'w-0'}`}
                                 ></div>
+                                {innovationSlide === 0 && (
+                                    <div className="absolute inset-0 bg-orange-500/10 blur-sm animate-pulse"></div>
+                                )}
                             </div>
                             
                             {/* Bar 2: Mission (Blue) */}
-                            <div className="h-1.5 flex-1 bg-slate-800 rounded-full overflow-hidden">
+                            <div className="h-1.5 flex-1 bg-slate-900 rounded-full overflow-hidden relative border border-white/5">
                                 <div 
-                                    key={`bar-1-${innovationSlide}`} // Force re-render on slide change
-                                    className={`h-full bg-gradient-to-r from-blue-500 to-blue-400 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.5)] ${innovationSlide === 1 ? 'animate-filling w-full' : 'w-0'}`}
+                                    key={`bar-1-${innovationSlide}`}
+                                    className={`h-full bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 rounded-full ${innovationSlide === 1 ? 'animate-filling' : 'w-0'}`}
                                 ></div>
+                                {innovationSlide === 1 && (
+                                    <div className="absolute inset-0 bg-blue-500/10 blur-sm animate-pulse"></div>
+                                )}
                             </div>
                         </div>
                     </div>
